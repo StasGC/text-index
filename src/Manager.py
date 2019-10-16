@@ -7,6 +7,7 @@ arr_of_words = []
 dictionary_of_words = dict()
 num_of_line = 0
 page = 1
+page_side = 45
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -42,7 +43,7 @@ if __name__ == "__main__":
                     dictionary_of_words[word] += [page]
                 else:
                     dictionary_of_words[word] = [page]
-            if num_of_line == 45:
+            if num_of_line == page_side:
                 num_of_line = 0
                 page += 1
 
