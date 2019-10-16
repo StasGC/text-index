@@ -57,3 +57,34 @@ def make_top(dictionary_of_words):
                 word_order_for_top.append(word)
 
     return [word_order_for_top, frequency_dictionary]
+
+
+def create_dict_of_words(data, max_page):
+    stop_list = make_stop_list()
+
+    arr_of_words = []
+    dictionary_of_words = dict()
+    num_of_line = 0
+    page = 1
+
+    for tmp_line in data.readlines():
+        tmp_line = list(map(str, tmp_line.split()))
+        if not tmp_line:
+            continue
+        num_of_line += 1
+        for word in tmp_line:
+            word = word.lower()
+            word = delete_punctuation(word)
+            if (word in stop_list) or (not word):
+                continue
+            if word not in arr_of_words:
+                arr_of_words.append(word)
+            if word in dictionary_of_words.keys():
+                dictionary_of_words[word] += [page]
+            else:
+                dictionary_of_words[word] = [page]
+        if num_of_line == max_page:
+            num_of_line = 0
+            page += 1
+
+    return [arr_of_words, dictionary_of_words]
