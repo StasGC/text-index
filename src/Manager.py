@@ -11,7 +11,7 @@ page = 1
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-call", type=str, choices=["index", "top", "all"], default="all")
-    parser.add_argument("-i", type=str, default="text1.txt")
+    parser.add_argument("-i", type=str, default="input.txt")
     args, unknown = parser.parse_known_args()
     if args.call == "index":
         parser.add_argument("-o", type=str, default="output_index.txt")
@@ -32,11 +32,9 @@ if __name__ == "__main__":
                 continue
             num_of_line += 1
             for word in tmp_line:
+                word = word.lower()
                 word = delete_punctuation(word)
-                if (word.lower() in stop_list) or (not word):
-                    continue
-                if (word not in arr_of_words) and (word.lower() in arr_of_words):
-                    dictionary_of_words[word.lower()] += [page]
+                if (word in stop_list) or (not word):
                     continue
                 if word not in arr_of_words:
                     arr_of_words.append(word)
@@ -57,14 +55,14 @@ if __name__ == "__main__":
             for word in arr_of_words:
                 index_ans.write(word + ": " + str(dictionary_of_words_with_single_pages[word]) + "\n")
 
-    keys_from_frequency = make_top(dictionary_of_words)[0]
-    frequency_dictionary_reverse = make_top(dictionary_of_words)[1]
+    word_order_for_top = make_top(dictionary_of_words)[0]
+    frequency_dictionary = make_top(dictionary_of_words)[1]
 
     if args.call == "top" or args.call == "all":
         with open(args.w, "w", encoding="utf-8") as top_ans:
-            if args.num_top > len(keys_from_frequency):
-                args.num_top = len(keys_from_frequency)
-            for num in keys_from_frequency[:args.num_top]:
-                top_ans.write(str(num) + ": " + str(frequency_dictionary_reverse[num]) + "\n")
+            if args.num_top > len(word_order_for_top):
+                args.num_top = len(word_order_for_top)
+            for word in word_order_for_top[:args.num_top]:
+                top_ans.write(word + ": " + str(frequency_dictionary[word]) + "\n")
 
 

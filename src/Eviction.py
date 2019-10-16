@@ -40,15 +40,20 @@ def make_index(dictionary_of_words):
 
 def make_top(dictionary_of_words):
     """Данная функция составляет словарь, где каждому слову сопоставлено число, равное количеству вхождений
-    слова в текст"""
+    слова в текст. Выдает массив с порядком слов, который определяет топ."""
     frequency_dictionary = dict()
-    frequency_dictionary_reverse = dict()
     keys_from_frequency = []
     for word in dictionary_of_words.keys():
         frequency_dictionary[word] = len(dictionary_of_words[word])
         if len(dictionary_of_words[word]) not in keys_from_frequency:
             keys_from_frequency.append(len(dictionary_of_words[word]))
 
-    frequency_dictionary_reverse = {v: k for k, v in iter(frequency_dictionary.items())}
     keys_from_frequency.sort(reverse=True)
-    return [keys_from_frequency, frequency_dictionary_reverse]
+
+    word_order_for_top = []
+    for num in keys_from_frequency:
+        for word in frequency_dictionary.keys():
+            if frequency_dictionary[word] == num:
+                word_order_for_top.append(word)
+
+    return [word_order_for_top, frequency_dictionary]

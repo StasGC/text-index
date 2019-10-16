@@ -79,7 +79,7 @@ def test_make_index():
     logging.debug("make_index test completed")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.debug("Внимание!!! Для удобства написания тестов, 1 страница = 5 строк")
     logging.debug("Running tests")
 
